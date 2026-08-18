@@ -2,6 +2,13 @@
 name: okki-email-validity-check
 description: 基于 AiReach 独有数据库与历史触达记录，秒级判断邮箱是否有效、最近触达时间，评估邮箱质量。
 ---
+## 0. 初始化
+
+本技能依赖 OKKI AiReach 能力，执行前必须先确认 `aireach-cli` 可用且当前环境已授权。若缺少 `aireach-cli`，请先安装 `@okki-aireach/aireach-cli`（或由宿主按插件约定注入），不要尝试绕过 CLI 直接调用内部接口。
+
+执行前运行 `aireach-cli auth status` 检查登录状态，确认本地凭证与目标 gateway 环境匹配。若未登录或凭证失效，先按 `okki-aireach-auth-init` 的流程引导用户完成授权（授权 URL 需包含 `client_id=accio-work`），授权成功后再继续本技能任务。
+
+不要要求用户粘贴或展示 PAT/token，也不要把授权登录路径、内部地址写进回复；认证是否可用以目标 gateway 的真实请求验证结果为准，而不是只看本地是否有 token。
 # Email Trust Verifier (邮箱可信度核验器)
 ### 核心任务
 当用户对某个联系方式（邮箱）产生质疑，或要求验证邮箱有效性时，通过外部联网搜索、第三方权威接口、内部触达记录三个维度进行交叉比对，输出置信度报告。
