@@ -1,6 +1,6 @@
 ---
 name: okki-aireach-auth-init
-description: 检查并初始化 AiReach 运行所需的 OKKI 授权状态。当用户需要配置 AiReach、检查登录状态、启动 AiReach 受保护能力，或业务 skill 需要 oauth.pat_token 前置时触发。
+description: 检查并初始化 AiReach 运行所需的 OKKI 授权状态。
 ---
 # AiReach Auth Init
 
