@@ -4,7 +4,7 @@ description: 用自然语言检索 AiReach 已挖掘的潜客，支持按时间�
 ---
 ## 0. 初始化
 
-本技能依赖 OKKI AiReach 能力，执行前必须先确认 `aireach-cli` 可用且当前环境已授权。若缺少 `aireach-cli`，请先安装 `@okki-aireach/aireach-cli`（或由宿主按插件约定注入），不要尝试绕过 CLI 直接调用内部接口。
+本技能依赖 OKKI AiReach 能力，执行前必须先确认 `aireach-cli` 可用且当前环境已授权。若缺少 `aireach-cli`，请先通过 npm 安装：`npm install -g @okki-aireach/aireach-cli`（或由宿主按插件约定注入），不要尝试绕过 CLI 直接调用内部接口。
 
 执行前运行 `aireach-cli auth status` 检查登录状态，确认本地凭证与目标 gateway 环境匹配。若未登录或凭证失效，先按 `okki-aireach-auth-init` 的流程引导用户完成授权（授权 URL 需包含 `client_id=accio-work`），授权成功后再继续本技能任务。
 
