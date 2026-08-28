@@ -1,6 +1,6 @@
 ---
 name: okki-aireach-maintain-ideal-buyer-profile
-description: 支持通过自然语言的形式表达提炼为统一、清晰、可复用的客户开发标准，作为 AiReach 潜客挖掘和推荐的参考依据。
+description: 通过自然语言的形式将客户表达提炼为统一、清晰、可复用的客户开发标准，作为 AiReach 潜客挖掘和推荐的参考依据。
 ---
 ## 0. 初始化
 

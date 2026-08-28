@@ -1,6 +1,6 @@
 ---
 name: okki-aireach-discovered-prospects-query
-description: 用自然语言检索 AiReach 已挖掘的潜客，支持按时间、国家、分层、建档/触达状态、主营品类等定向筛选并导出。
+description: 用自然语言检索 AiReach 已挖掘的潜客，支持按时间、国家、分层、建档/触达状态、主营品类等条件定向查询。
 ---
 ## 0. 初始化
 
