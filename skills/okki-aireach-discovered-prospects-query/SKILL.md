@@ -14,7 +14,7 @@ description: 用自然语言检索 AiReach 已挖掘的潜客，支持按时间�
 ## 能力边界
 - 这是对 AiReach 已挖掘潜客池的只读查询，不创建新潜客，不搜索开放网络，不写回状态，不创建营销任务。
 - 对外语义统一视为 AiReach 产品能力，不向用户暴露底层实现名。
-- 数据语义是当前租户已有的 AiReach potential list / `AiSdrTaskDetail` 记录；后端会自动解析当前租户的 AiReach 自动挖掘任务，不向用户索要或展示 `task_id`。
+- 数据语义是 AiReach 潜客挖掘任务中的 potential list / `AiSdrTaskDetail` 记录。单任务客户沿用默认任务解析；多任务客户需要传入用户确认的 `task_id`。`task_id` 只用于工具调用，不直接展示给用户。
 - 概览统计和分布必须来自工具返回的完整匹配集，不能用最多 100 条 `records` 样本估算。
 - 正常查询只返回数据、统计和 AiReach 查看链接；导出是独立动作，必须用户明确确认后才调用。
 - 导出是独立确认动作：用户明确确认后调用一次 `potential_list_export`，只有工具返回真实 `download_url` 后才能给用户下载链接。
@@ -69,13 +69,13 @@ description: 用自然语言检索 AiReach 已挖掘的潜客，支持按时间�
 
 ## 执行流程
 1. 判断请求是概览、列表还是导出确认。
-2. 对概览或列表，调用 `potential_list_query`，不要传 `task_id`。如果用户问多个阶段/建档状态的页面统计，优先使用 `page_metrics.stage_cumulative` 和 `page_metrics.archive_status_filters`；只有“阶段构成/状态分布”类问题才读取 `distributions.stage` 或 `distributions.archive_status`。
+2. 对概览或列表，先直接调用 `potential_list_query`。单任务客户会按默认任务返回结果；如果多任务客户缺少 `task_id`，工具会返回可选任务列表，此时用任务名称向用户确认，确认后使用同样的筛选条件和对应 `task_id` 重试。如果用户问多个阶段/建档状态的页面统计，优先使用 `page_metrics.stage_cumulative` 和 `page_metrics.archive_status_filters`；只有“阶段构成/状态分布”类问题才读取 `distributions.stage` 或 `distributions.archive_status`。
 3. 如果用户请求了不支持维度，先用支持维度查询或要求澄清，并明确说 unsupported 维度。
 4. 如果是宽泛品类词（例如“园艺类”），只能作为安全 `keyword` 或明确产品词使用；不要承诺语义检索。
 5. 输出时使用工具返回的 `summary`、`page_metrics`、`distributions`、`records`、`actions.view_link`。
 6. 如果用户明确确认导出，调用 `potential_list_export`：
    - `confirmed=true`
-   - 传入与上一轮查询一致的筛选条件
+   - 传入与上一轮查询一致的筛选条件；多任务客户继续传入同一个 `task_id`
    - 遵守“导出条件继承”规则，确保导出总数对齐上一轮回答的页面口径或子集口径
 7. 如果工具返回 `status=done` 且存在真实 `download_url`，给出下载链接；如果返回 `empty`、不支持或没有 URL，说明没有可导出的匹配结果或当前条件暂不支持导出，不要编造下载链接。
 
